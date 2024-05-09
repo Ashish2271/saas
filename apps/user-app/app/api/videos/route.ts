@@ -8,7 +8,7 @@ async function fetchStatsFromYouTube(videoId: string) {
 
   try {
     const response = await axios.get(STAT_URL);
-    console.log(response)
+    // console.log(response)
 
     return response.data;
   } catch (error) {
@@ -27,7 +27,7 @@ export  async function GET(req: NextRequest , res:NextResponse) {
       const videoStats = videosData.items.map((video:any) => {
         const videoId = video.id.videoId;
         const title = video.snippet.title;
-        console.log(videoId)
+        // console.log(videoId)
         return { videoId, title };
         
       });

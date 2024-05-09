@@ -1,20 +1,22 @@
-'use client'
-import React, { useEffect, useState } from 'react';
-import YouTube from 'react-youtube';
-import axios from 'axios';
+"use client";
+import React, { useEffect, useState } from "react";
+import YouTube from "react-youtube";
+import axios from "axios";
+import Header from "../components/header/Header";
+import { Container, Typography } from "@mui/material";
 
 function Example() {
-  const [videoStats, setVideoStats] = useState([]);
+  const [videoStats, setVideoStats] = useState([]) as any;
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get('/api/videos');
+        const response = await axios.get("/api/videos");
         setVideoStats(response.data);
-        console.log(response.data.videoId)
+        // console.log(response.data.videoId)
       } catch (error) {
-        console.error('Error fetching video stats:', error);
+        console.error("Error fetching video stats:", error);
       }
     }
 
@@ -22,14 +24,14 @@ function Example() {
   }, []);
 
   const opts = {
-    height: '390',
-    width: '640',
+    height: "390",
+    width: "640",
     playerVars: {
       autoplay: 1,
     },
   };
 
-  const onPlayerReady = (event:any) => {
+  const onPlayerReady = (event: any) => {
     // access to player in all event handlers via event.target
     event.target.pauseVideo();
   };
@@ -39,10 +41,22 @@ function Example() {
   };
 
   return (
-    <div>
-      <h3>{videoStats[currentVideoIndex]?.title}</h3>
-      <YouTube videoId={videoStats[currentVideoIndex]?.videoId} opts={opts} onReady={onPlayerReady} />
-      <button onClick={handleNextVideo}>Next</button>
+    <div >
+      <Header />
+      <Container
+        maxWidth="2xl"
+        sx={{ pt: 1.5, "&": { px: { xs: 1.5, sm: 3 } } }}
+      >
+        <Typography className=" text-white">
+          {videoStats[currentVideoIndex]?.title}
+        </Typography>
+        <YouTube
+          videoId={videoStats[currentVideoIndex]?.videoId}
+          opts={opts}
+          onReady={onPlayerReady}
+        />
+        <button onClick={handleNextVideo}>Next</button>
+      </Container>
     </div>
   );
 }

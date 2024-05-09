@@ -1,10 +1,17 @@
 import "./globals.css";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
-import { Providers } from "../provider";
+// import { Providers } from "../provider";
 import { AppbarClient } from "../components/AppbarClient";
+import Providers from "../config/Providers";
+import { Roboto_Flex } from "next/font/google";
 
-const inter = Inter({ subsets: ["latin"] });
+// const inter = Inter({ subsets: ["latin"] });
+const roboto = Roboto_Flex({
+  subsets: ["latin"],
+  weight: ["100", "300", "400", "500", "700", "900"],
+});
+
 
 export const metadata: Metadata = {
   title: "Wallet",
@@ -19,11 +26,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        <body className={inter.className}>
-          <div className="min-w-screen min-h-screen bg-[#ebe6e6]">
-            {/* <AppbarClient /> */}
-            {children}
-          </div>
+        <body className={roboto.className} style={{ margin: 0, minWidth: 320 }}>
+          {children}
         </body>
       </Providers>
     </html>
