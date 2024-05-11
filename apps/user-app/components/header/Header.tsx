@@ -6,10 +6,16 @@ import SearchBar from './SearchBar'
 import NavMenuButton from '../NavMenuButton'
 import { useEffect, useState } from 'react'
 import SettingsButton from './SettingsButton'
+import { signIn } from "next-auth/react";
+
+import { useSession } from "next-auth/react";
 // import YoutubeTextIcon from '@/assets/svgr/YoutubeTextIcon'
 import Link from 'next/link'
 
 const Header = () => {
+	const session = useSession();
+	const user = session.data?.user;
+
 	const [onlySearchBar, setOnlySearchBar] = useState(false)
 	const tabletScreen = useMediaQuery((theme: Theme) => theme.breakpoints.up('sm'))
 
@@ -53,7 +59,7 @@ const Header = () => {
 							</IconButton>
 						</Tooltip>
 						<SettingsButton />
-						<Button
+						{/* <Button
 							variant="outlined"
 							startIcon={<AccountCircleOutlined />}
 							sx={{
@@ -66,7 +72,29 @@ const Header = () => {
 							}}
 						>
 							Sign in
-						</Button>
+						</Button> */}
+
+
+            {!user ? (
+            <Button
+			variant="outlined"
+			startIcon={<AccountCircleOutlined />}
+			sx={{
+				borderRadius: 5,
+				borderColor: 'action.focus',
+				color: 'info.main',
+				whiteSpace: 'nowrap',
+				overflow: 'hidden',
+				mr:1}}
+              onClick={async () => {
+                await signIn();
+              }}
+            >
+              Login
+            </Button>
+          ) : (
+            ""
+          )}
 					</>
 				)}
 			</Toolbar>
