@@ -1,9 +1,9 @@
 "use client";
+
 import React, { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import axios from "axios";
-import Header from "../components/header/Header";
-import { Container, Typography } from "@mui/material";
+import { Button, Container, Typography } from "@mui/material";
 
 function Example() {
   const [videoStats, setVideoStats] = useState([]) as any;
@@ -24,8 +24,8 @@ function Example() {
   }, []);
 
   const opts = {
-    height: "390",
-    width: "640",
+    height: "500",
+    width: "800",
     playerVars: {
       autoplay: 1,
     },
@@ -41,8 +41,7 @@ function Example() {
   };
 
   return (
-    <div >
-      <Header />
+    <div className="flex justify-end ml-80 mt-10">
       <Container
         maxWidth="2xl"
         sx={{ pt: 1.5, "&": { px: { xs: 1.5, sm: 3 } } }}
@@ -55,7 +54,7 @@ function Example() {
           opts={opts}
           onReady={onPlayerReady}
         />
-        <button onClick={handleNextVideo}>Next</button>
+        <Button onClick={handleNextVideo} className="justify-end">Next</Button>
       </Container>
     </div>
   );

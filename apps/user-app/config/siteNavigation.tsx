@@ -1,7 +1,7 @@
-import YoutubeIcon from '@/assets/svgr/YoutubeIcon'
-import YoutubeKids from '@/assets/svgr/YoutubeKids'
-import YoutubeMusic from '@/assets/svgr/YoutubeMusic'
-import { NavItem } from '@/types'
+// import YoutubeIcon from '@/assets/svgr/YoutubeIcon'
+// import YoutubeKids from '@/assets/svgr/YoutubeKids'
+// import YoutubeMusic from '@/assets/svgr/YoutubeMusic'
+import { NavItem } from '../types'
 import {
 	AddCircle,
 	AddCircleOutline,
@@ -126,26 +126,26 @@ export const mainNavigation = {
 			selectedIcon: <AddCircle />,
 		},
 	] as NavItem[],
-	more: [
-		{
-			name: 'YouTube Premium',
-			href: 'https://www.youtube.com/premium',
-			icon: <YoutubeIcon width={24} />,
-			selectedIcon: <YoutubeIcon width={24} />,
-		},
-		{
-			name: 'YouTube Music',
-			href: 'https://music.youtube.com',
-			icon: <YoutubeMusic width={24} />,
-			selectedIcon: <YoutubeMusic width={24} />,
-		},
-		{
-			name: 'YouTube Kids',
-			href: 'https://www.youtubekids.com',
-			icon: <YoutubeKids width={24} />,
-			selectedIcon: <YoutubeKids width={24} />,
-		},
-	] as NavItem[],
+	// more: [
+	// 	{
+	// 		name: 'YouTube Premium',
+	// 		href: 'https://www.youtube.com/premium',
+	// 		icon: <YoutubeIcon width={24} />,
+	// 		selectedIcon: <YoutubeIcon width={24} />,
+	// 	},
+	// 	{
+	// 		name: 'YouTube Music',
+	// 		href: 'https://music.youtube.com',
+	// 		icon: <YoutubeMusic width={24} />,
+	// 		selectedIcon: <YoutubeMusic width={24} />,
+	// 	},
+	// 	{
+	// 		name: 'YouTube Kids',
+	// 		href: 'https://www.youtubekids.com',
+	// 		icon: <YoutubeKids width={24} />,
+	// 		selectedIcon: <YoutubeKids width={24} />,
+	// 	},
+	// ] as NavItem[],
 	support: [
 		{
 			name: 'Settings',
