@@ -26,6 +26,7 @@ model Account {
 
   @@unique([provider, providerAccountId])
 }
+
 model Session {
   id           String   @id @default(cuid())
   sessionToken String   @unique
@@ -34,22 +35,20 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
-
 model User {
-  id            String       @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?      @unique
+  email         String?    @unique
   emailVerified DateTime?
   password      String?
   image         String?
-  admin         Boolean      @default(false)
+  admin         Boolean    @default(false)
   accounts      Account[]
   sessions      Session[]
   comments      Comment[]
   votes         Vote[]
   bookmarks     Bookmark[]
 }
-
 
 model VerificationToken {
   identifier String
@@ -59,45 +58,40 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-
-
 model Post {
-  id               Int            @id @default(autoincrement())
-  title            String
-  link             String
-  linkType         LinkType
-  description      String?
-  thumbnail        String?
-  hidden           Boolean         @default(false)
-  comments         Comment[]
-  commentsCount    Int             @default(0)
-  createdAt        DateTime        @default(now())
-  bookmark         Bookmark?
-  type             PostType
-  upvotes          Int         @default(0)
-  downvotes        Int         @default(0)
-  votes            Vote[]
- 
+  id            Int       @id @default(autoincrement())
+  title         String
+  link          String
+  linkType      LinkType
+  description   String?
+  thumbnail     String?
+  hidden        Boolean   @default(false)
+  comments      Comment[]
+  commentsCount Int       @default(0)
+  createdAt     DateTime  @default(now())
+  bookmark      Bookmark?
+  type          PostType
+  upvotes       Int       @default(0)
+  downvotes     Int       @default(0)
+  votes         Vote[]
 }
 
 model Bookmark {
   id        Int      @id @default(autoincrement())
   userId    String
-  postId Int         @unique
+  postId    Int      @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
- }
-
-
+}
 
 model Comment {
   id           Int         @id @default(autoincrement())
-  post      String
+  post         String
   commentType  CommentType @default(DEFAULT)
   approved     Boolean     @default(false)
-  postId    Int
-  commentedOn  Post     @relation(fields: [postId], references: [id])
+  postId       Int
+  commentedOn  Post        @relation(fields: [postId], references: [id])
   parentId     Int?
   parent       Comment?    @relation("ParentComment", fields: [parentId], references: [id])
   children     Comment[]   @relation("ParentComment")
@@ -112,22 +106,19 @@ model Comment {
   isPinned     Boolean     @default(false)
 }
 
-
 model Vote {
   id        Int      @id @default(autoincrement())
-  commentId Int
-  comment   Comment  @relation(fields: [commentId], references: [id])
-  postId    Int
-  post      Post     @relation(fields: [postId], references: [id])
+  commentId Int?
+  comment   Comment? @relation(fields: [commentId], references: [id])
+  postId    Int?
+  post      Post?    @relation(fields: [postId], references: [id])
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   voteType  VoteType // enum
   createdAt DateTime @default(now())
 
-  @@unique([commentId, userId])
-  @@unique([postId],userId)
+  @@unique([commentId, userId, postId])
 }
-
 
 enum VoteType {
   UPVOTE
@@ -135,18 +126,16 @@ enum VoteType {
 }
 
 enum PostType {
- SHORT
- LONG
+  SHORT
+  LONG
 }
-
 
 enum LinkType {
   YOUTUBE
-  DISCORD 
+  DISCORD
 }
 
 enum CommentType {
   INTRO
   DEFAULT
 }
-
