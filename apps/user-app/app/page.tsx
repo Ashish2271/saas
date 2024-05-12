@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import axios from "axios";
-import { Button, Container, Typography } from "@mui/material";
+import { Box, Button, Container, Input, Typography } from "@mui/material";
 
 function Example() {
   const [video, setVideo] = useState([]) as any;
@@ -54,7 +54,24 @@ function Example() {
           opts={opts}
           onReady={onPlayerReady}
         />
-        <Button onClick={handleNextVideo} className="justify-end">Next</Button>
+        <Button onClick={handleNextVideo} className="justify-end">
+          Next
+        </Button>
+        <Input about="Enter" name="Enter comment"/>
+        <Box
+          width="100%"
+          maxWidth="100%"
+          overflow="hidden"
+          height="100%"
+          gridColumn="1/2"
+          gridRow={{ sm: "4/5", md: "3/4" }}
+          px={{ xs: 1.5, sm: 0 }}
+          pb={2}
+          color={"whitesmoke"}
+        >
+          Nice video
+          {/* {comments} */}
+        </Box>
       </Container>
     </div>
   );
