@@ -36,18 +36,20 @@ model Session {
 }
 
 model User {
-  id            String     @id @default(cuid())
+  id            String    @id @default(cuid())
   name          String?
-  email         String?    @unique
+  email         String?   @unique
   emailVerified DateTime?
   password      String?
   image         String?
-  admin         Boolean    @default(false)
-  accounts      Account[]
-  sessions      Session[]
-  comments      Comment[]
-  votes         Vote[]
-  bookmarks     Bookmark[]
+  admin         Boolean   @default(false)
+  token         String?
+
+  accounts  Account[]
+  sessions  Session[]
+  comments  Comment[]
+  votes     Vote[]
+  bookmarks Bookmark[]
 }
 
 model VerificationToken {
