@@ -28,6 +28,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
+        
         <body className={roboto.className} style={{ margin: 0, minWidth: 320 }}>
           <Header />
           <NavigationManager />
