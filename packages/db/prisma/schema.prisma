@@ -44,7 +44,7 @@ model User {
   image         String?
   admin         Boolean   @default(false)
   token         String?
-
+  posts         Post[]
   accounts  Account[]
   sessions  Session[]
   comments  Comment[]
@@ -71,6 +71,8 @@ model Post {
   comments      Comment[]
   commentsCount Int       @default(0)
   createdAt     DateTime  @default(now())
+  authorId      String
+  author        User     @relation(fields: [authorId], references: [id])
   bookmark      Bookmark?
   type          PostType
   upvotes       Int       @default(0)
