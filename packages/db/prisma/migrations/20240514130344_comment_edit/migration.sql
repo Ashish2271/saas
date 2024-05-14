@@ -1,14 +1,3 @@
-/*
-  Warnings:
-
-  - The primary key for the `User` table will be changed. If it partially fails, the table could be left without primary key constraint.
-  - You are about to drop the column `auth_type` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the column `number` on the `User` table. All the data in the column will be lost.
-  - You are about to drop the `Balance` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `Merchant` table. If the table is not empty, all the data it contains will be lost.
-  - You are about to drop the `OnRampTransaction` table. If the table is not empty, all the data it contains will be lost.
-
-*/
 -- CreateEnum
 CREATE TYPE "VoteType" AS ENUM ('UPVOTE', 'DOWNVOTE');
 
@@ -20,43 +9,6 @@ CREATE TYPE "LinkType" AS ENUM ('YOUTUBE', 'DISCORD');
 
 -- CreateEnum
 CREATE TYPE "CommentType" AS ENUM ('INTRO', 'DEFAULT');
-
--- DropForeignKey
-ALTER TABLE "Balance" DROP CONSTRAINT "Balance_userId_fkey";
-
--- DropForeignKey
-ALTER TABLE "OnRampTransaction" DROP CONSTRAINT "OnRampTransaction_userId_fkey";
-
--- DropIndex
-DROP INDEX "User_number_key";
-
--- AlterTable
-ALTER TABLE "User" DROP CONSTRAINT "User_pkey",
-DROP COLUMN "auth_type",
-DROP COLUMN "number",
-ADD COLUMN     "admin" BOOLEAN NOT NULL DEFAULT false,
-ADD COLUMN     "emailVerified" TIMESTAMP(3),
-ADD COLUMN     "image" TEXT,
-ALTER COLUMN "id" DROP DEFAULT,
-ALTER COLUMN "id" SET DATA TYPE TEXT,
-ALTER COLUMN "password" DROP NOT NULL,
-ADD CONSTRAINT "User_pkey" PRIMARY KEY ("id");
-DROP SEQUENCE "User_id_seq";
-
--- DropTable
-DROP TABLE "Balance";
-
--- DropTable
-DROP TABLE "Merchant";
-
--- DropTable
-DROP TABLE "OnRampTransaction";
-
--- DropEnum
-DROP TYPE "AuthType";
-
--- DropEnum
-DROP TYPE "OnRampStatus";
 
 -- CreateTable
 CREATE TABLE "Account" (
@@ -85,6 +37,20 @@ CREATE TABLE "Session" (
     "expires" TIMESTAMP(3) NOT NULL,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "name" TEXT,
+    "email" TEXT,
+    "emailVerified" TIMESTAMP(3),
+    "password" TEXT,
+    "image" TEXT,
+    "admin" BOOLEAN NOT NULL DEFAULT false,
+    "token" TEXT,
+
+    CONSTRAINT "User_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -125,7 +91,7 @@ CREATE TABLE "Bookmark" (
 -- CreateTable
 CREATE TABLE "Comment" (
     "id" SERIAL NOT NULL,
-    "post" TEXT NOT NULL,
+    "content" TEXT NOT NULL,
     "commentType" "CommentType" NOT NULL DEFAULT 'DEFAULT',
     "approved" BOOLEAN NOT NULL DEFAULT false,
     "postId" INTEGER NOT NULL,
@@ -158,6 +124,9 @@ CREATE UNIQUE INDEX "Account_provider_providerAccountId_key" ON "Account"("provi
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");

@@ -89,7 +89,7 @@ model Bookmark {
 
 model Comment {
   id           Int         @id @default(autoincrement())
-  post         String
+  content      String
   commentType  CommentType @default(DEFAULT)
   approved     Boolean     @default(false)
   postId       Int

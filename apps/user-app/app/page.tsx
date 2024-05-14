@@ -4,6 +4,7 @@ import React, { useEffect, useState } from "react";
 import YouTube from "react-youtube";
 import axios from "axios";
 import { Box, Button, Container, Input, Typography } from "@mui/material";
+import CreateCommentComponent from "../components/commnents/CreateCommentComponent";
 
 function Example() {
   const [video, setVideo] = useState([]) as any;
@@ -57,7 +58,7 @@ function Example() {
         <Button onClick={handleNextVideo} className="justify-end">
           Next
         </Button>
-        <Input about="Enter" name="Enter comment"/>
+        <CreateCommentComponent postId={1} />
         <Box
           width="100%"
           maxWidth="100%"
