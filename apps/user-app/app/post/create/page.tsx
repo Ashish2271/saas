@@ -19,7 +19,14 @@ export default function Page() {
           // If not, adjust accordingly
         }
       
-        const res = await createPostHandler(post)
+        const res = await createPostHandler({
+          title: formData.get('title') as string,
+          link: formData.get('link') as string,
+          linkType: formData.get('linkType') as LinkType, // assuming you have 'linkType' in your form
+          description: formData.get('description') as string,
+          type:formData.get('type') as PostType// Assuming other properties of Post are present in the form
+        }
+        )
         console.log('created post')
       
         // Handle response as needed
@@ -31,13 +38,13 @@ export default function Page() {
           <input type="text" name="title" required />
           <input type="text" name="link" required />
           <select name="linkType" required>
-            <option value="youtube">Youtube</option>
-            <option value="discord">Discord</option>
+            <option value="YOUTUBE">Youtube</option>
+            <option value="DISCORD">Discord</option>
           </select>
           <input type="text" name="description" required />
           <select name="type" required>
-            <option value="short">Short</option>
-            <option value="long">Long</option>
+            <option value="SHORT">Short</option>
+            <option value="LONG">Long</option>
           </select>
           <button type="submit">Submit</button>
         </form>
