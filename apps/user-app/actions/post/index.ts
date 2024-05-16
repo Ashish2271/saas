@@ -4,11 +4,33 @@ import { getServerSession } from "next-auth";
 import { Post } from "./types";
 import { authOptions } from "../../lib/auth";
 import prisma from "@repo/db/client";
+import { z } from "zod";
 
 
 export const createPostHandler = async (
   data: Post
 ): Promise<any> => {
+  const LinkType = z.enum(['YOUTUBE', 'SHORT']);
+  const PostType = z.enum(['SHORT', 'LONG']);
+  const Schema = z.object({
+    title: z.string(),
+    link: z.string(),
+    linkType: LinkType,
+    description: z.string(),
+    type: PostType,
+  });
+  const parse = Schema.safeParse({
+    todo: FormData,
+  });
+
+ 
+  if (!parse.success) {
+    console.log('eror')
+    return { message: "Failed to create " };
+    
+  }
+
+  const parseddata = parse.data;
   const session = await getServerSession(authOptions); // Get session
 
   if (!session || !session.user) {

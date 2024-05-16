@@ -1,3 +1,4 @@
+
 import { createPostHandler, getPosts } from "../../actions/post";
 import { Post } from "../../actions/post/types";
 interface Props {}
@@ -19,6 +20,7 @@ const PostList: React.FC<Props> = async () => {
     
   // })
   const response = await getPosts();
+  console.log(response)
   let posts: { data: Post[] };
 
   // Check if response has a "data" property and assign it to "posts".
@@ -34,7 +36,15 @@ const PostList: React.FC<Props> = async () => {
     <div>
       <h1>haha</h1>
       {posts.data.map((post: Post) => (
-        <li key={post.id}>{post.title}</li>
+        <li key={post.id}>{post.title}     
+        <iframe
+        width="560"
+        height="315"
+        src={post.link}
+        title="YouTube video player"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe></li>
       ))}
     </div>
   );
