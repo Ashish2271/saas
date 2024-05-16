@@ -44,7 +44,7 @@ model User {
   image         String?
   admin         Boolean   @default(false)
   token         String?
-  posts         Post[]
+  posts         post[]
   accounts  Account[]
   sessions  Session[]
   comments  Comment[]
@@ -60,7 +60,7 @@ model VerificationToken {
   @@unique([identifier, token])
 }
 
-model Post {
+model post {
   id            Int       @id @default(autoincrement())
   title         String
   link          String
@@ -85,7 +85,7 @@ model Bookmark {
   userId    String
   postId    Int      @unique
   user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  post      post     @relation(fields: [postId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
 }
 
@@ -95,7 +95,7 @@ model Comment {
   commentType  CommentType @default(DEFAULT)
   approved     Boolean     @default(false)
   postId       Int
-  commentedOn  Post        @relation(fields: [postId], references: [id])
+  commentedOn  post        @relation(fields: [postId], references: [id])
   parentId     Int?
   parent       Comment?    @relation("ParentComment", fields: [parentId], references: [id])
   children     Comment[]   @relation("ParentComment")
@@ -115,7 +115,7 @@ model Vote {
   commentId Int?
   comment   Comment? @relation(fields: [commentId], references: [id])
   postId    Int?
-  post      Post?    @relation(fields: [postId], references: [id])
+  post      post?    @relation(fields: [postId], references: [id])
   userId    String
   user      User     @relation(fields: [userId], references: [id])
   voteType  VoteType // enum

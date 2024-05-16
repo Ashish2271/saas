@@ -31,7 +31,7 @@ export default function RootLayout({
         
         <body className={roboto.className} style={{ margin: 0, minWidth: 320 }}>
           <Header />
-          <NavigationManager />
+          {/* <NavigationManager /> */}
           {children}
         </body>
       </Providers>
