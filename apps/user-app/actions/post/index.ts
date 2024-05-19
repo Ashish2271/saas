@@ -19,11 +19,9 @@ export const createPostHandler = async (
     description: z.string(),
     type: PostType,
   });
-  const parse = Schema.safeParse({
-    todo: FormData,
-  });
+  const parse = Schema.safeParse(data);
 
- 
+ console.log(data);
   if (!parse.success) {
     console.log('eror')
     return { message: "Failed to create " };

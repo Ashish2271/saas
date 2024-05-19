@@ -4,6 +4,7 @@ import { PrismaAdapter } from "@auth/prisma-adapter";
 import db from "@repo/db/client";
 import type { Adapter } from "next-auth/adapters";
 import { SessionStrategy } from "next-auth";
+import Discord from "next-auth/providers/discord";
 
 export const authOptions = {
   adapter: PrismaAdapter(db) as Adapter,
@@ -12,8 +13,11 @@ export const authOptions = {
       clientId: process.env.GITHUB_ID || "",
       clientSecret: process.env.GITHUB_SECRET || "",
       allowDangerousEmailAccountLinking: true,
-    })
-   
+    }),
+    Discord({
+      clientId: process.env.DISCORD_CLIENT_ID as string,
+      clientSecret: process.env.DISCORD_CLIENT_SECRET as string,
+    }),
   ],
   secret: process.env.NEXTAUTH_SECRET || "secr3t",
   // pages: {
