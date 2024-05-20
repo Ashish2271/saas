@@ -1,5 +1,6 @@
-
 import { createPostHandler, getPosts } from "../../actions/post";
+import { Post } from "../../actions/post/types";
+import VideoEmbed from "../../components/VideoEmbed";
 // import { Post } from "../../actions/post/types";
 import Vote from "../../components/Vote";
 import { post } from "@prisma/client";
@@ -19,30 +20,36 @@ const PostList: React.FC<Props> = async () => {
   //   linkType: 'YOUTUBE',
   //   description: "sdaf",
   //   type: 'SHORT'
-    
+
   // })
-  const posts= await getPosts();
-  
-  console.log(posts)
-    
+  const response = await getPosts();
+  let posts: Post[] = []
+
+  if ('data' in response) {
+    const { data } = response;
+    posts = data
+    console.log(data);
+  } else {
+    const { error } = response;
+    console.error(error);
+  }
+
   return (
     <div>
       <h1>haha</h1>
-    
-      {//@ts-ignore
-      posts.map((post:post) => (
-        <li key={post.id}>{post.title}     
-        <iframe
-        width="560"
-        height="315"
-        src={post.link}
-        title="YouTube video player"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowFullScreen
-      ></iframe>
-      <Vote postId={post.id} upVotes={post.upvotes} downVotes={post.downvotes} voteType={"UPVOTE"}/></li>
-      )
-      )}
+
+      {posts.length > 0 && posts.map((post) => (
+        <li key={post.id}>
+          {post.title}
+          <VideoEmbed videoId={`${post.link}`} />
+          <Vote
+            postId={post.id}
+            upVotes={post.upvotes}
+            downVotes={post.downvotes}
+            voteType={"UPVOTE"}
+          />
+        </li>
+      ))}
     </div>
   );
 };
