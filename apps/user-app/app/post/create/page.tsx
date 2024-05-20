@@ -28,6 +28,7 @@ export default function Page() {
         }
         )
         console.log('created post')
+        console.log(res)
       
         // Handle response as needed
       }

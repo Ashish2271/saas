@@ -9,7 +9,7 @@ import { revalidatePath } from "next/cache";
 // import { createSafeAction } from "@/lib/create-safe-action";
 import { VoteHandleSchema } from "./schema";
 
-const voteHandler = async (
+export const voteHandler = async (
   data: VoteHandleType
 ): Promise<any> => {
   const session = await getServerSession(authOptions);

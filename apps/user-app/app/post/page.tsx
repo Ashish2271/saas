@@ -1,6 +1,8 @@
 
 import { createPostHandler, getPosts } from "../../actions/post";
-import { Post } from "../../actions/post/types";
+// import { Post } from "../../actions/post/types";
+import Vote from "../../components/Vote";
+import { post } from "@prisma/client";
 interface Props {}
 
 const PostList: React.FC<Props> = async () => {
@@ -19,23 +21,16 @@ const PostList: React.FC<Props> = async () => {
   //   type: 'SHORT'
     
   // })
-  const response = await getPosts();
-  console.log(response)
-  let posts: { data: Post[] };
-
-  // Check if response has a "data" property and assign it to "posts".
-  if ("data" in response) {
-    posts = response;
-  } else {
-    // Handle the error here or pass it up to the parent component.
-    console.error("Error fetching posts:", response.error);
-    return null;
-  }
-
+  const posts= await getPosts();
+  
+  console.log(posts)
+    
   return (
     <div>
       <h1>haha</h1>
-      {posts.data.map((post: Post) => (
+    
+      {//@ts-ignore
+      posts.map((post:post) => (
         <li key={post.id}>{post.title}     
         <iframe
         width="560"
@@ -44,8 +39,10 @@ const PostList: React.FC<Props> = async () => {
         title="YouTube video player"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowFullScreen
-      ></iframe></li>
-      ))}
+      ></iframe>
+      <Vote postId={post.id} upVotes={post.upvotes} downVotes={post.downvotes} voteType={"UPVOTE"}/></li>
+      )
+      )}
     </div>
   );
 };

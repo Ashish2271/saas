@@ -63,7 +63,7 @@ export const createPostHandler = async (
 
 
 
-export const getPosts = async (): Promise<{ data: Post[] } | { error: any }> => {
+export const getPosts = async () => {
   const session = await getServerSession(authOptions); // Get session
 
   if (!session || !session.user) {
@@ -79,7 +79,7 @@ export const getPosts = async (): Promise<{ data: Post[] } | { error: any }> => 
       },
     });
 
-    return { data: posts };
+    return  posts ;
   } catch (error: any) {
     return { error: error.message || "Failed to retrieve posts." };
   }

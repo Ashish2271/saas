@@ -2,7 +2,7 @@ import { PostType, LinkType } from "@prisma/client";
 
 
 export interface Post {
-  id?:any;
+  id?:number;
   title: string;
   link: string;
   linkType: LinkType;
@@ -11,6 +11,9 @@ export interface Post {
   hidden?: boolean;
   authorId?: string;
   type: PostType;
+  upvotes: number;
+  downvotes:number;
+  
 }
 
 export { LinkType ,PostType };
