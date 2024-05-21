@@ -35,7 +35,7 @@ const PostList: React.FC<Props> = async () => {
   }
 
   return (
-    <div>
+    <div className="px-72">
       <h1>haha</h1>
 
       {posts.length > 0 && posts.map((post) => (

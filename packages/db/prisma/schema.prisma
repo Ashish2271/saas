@@ -36,20 +36,20 @@ model Session {
 }
 
 model User {
-  id            String    @id @default(cuid())
+  id            String     @id @default(cuid())
   name          String?
-  email         String?   @unique
+  email         String?    @unique
   emailVerified DateTime?
   password      String?
   image         String?
-  admin         Boolean   @default(false)
+  admin         Boolean    @default(false)
   token         String?
   posts         post[]
-  accounts  Account[]
-  sessions  Session[]
-  comments  Comment[]
-  votes     Vote[]
-  bookmarks Bookmark[]
+  accounts      Account[]
+  sessions      Session[]
+  comments      Comment[]
+  votes         Vote[]
+  bookmarks     Bookmark[]
 }
 
 model VerificationToken {
@@ -72,12 +72,14 @@ model post {
   commentsCount Int       @default(0)
   createdAt     DateTime  @default(now())
   authorId      String
-  author        User     @relation(fields: [authorId], references: [id])
+  author        User      @relation(fields: [authorId], references: [id])
   bookmark      Bookmark?
   type          PostType
   upvotes       Int       @default(0)
   downvotes     Int       @default(0)
-  votes         Vote[]
+  ratings       Float     @default(0)
+
+  votes Vote[]
 }
 
 model Bookmark {
