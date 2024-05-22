@@ -1,14 +1,14 @@
 'use server'
 
 import { getServerSession } from "next-auth";
-import { Post } from "./types";
+import { getPost,createPost } from "./types";
 import { authOptions } from "../../lib/auth";
 import prisma from "@repo/db/client";
 import { z } from "zod";
 
 
 export const createPostHandler = async (
-  data: Post
+  data: createPost
 ): Promise<any> => {
   const LinkType = z.enum(['YOUTUBE', 'SHORT']);
   const PostType = z.enum(['SHORT', 'LONG']);
@@ -63,12 +63,12 @@ export const createPostHandler = async (
 
 
 
-export const getPosts = async (): Promise<{ data: Post[] } | { error: any }> => {
-  const session = await getServerSession(authOptions); // Get session
+export const getPosts = async (): Promise<{ data: getPost[] } | { error: any }> => {
+  // const session = await getServerSession(authOptions); // Get session
 
-  if (!session || !session.user) {
-    return { error: "Unauthorized or insufficient permissions" };
-  }
+  // if (!session || !session.user) {
+  //   return { error: "Unauthorized or insufficient permissions" };
+  // }
 
   try {
     const posts = await prisma.post.findMany({

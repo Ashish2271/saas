@@ -70,7 +70,12 @@ export const createCommentHandler = async (
   }
 
   const { content, postId, parentId } = data;
+
   const userId = session.user.id;
+  console.log("UserId:", userId);
+console.log("PostId:", postId);
+console.log("ParentId:", parentId);
+
 
   //   #rate limiting
   //   if (!rateLimit(userId)) {
@@ -120,7 +125,7 @@ export const createCommentHandler = async (
             content,
             postId,
             parentId, // undefined if its a comment without parent (top level)
-            userId: "clw6haf1j0000roixtu0whbhw",
+            userId
             // commentType:
             //   introData && introData.length > 0
             //     ? CommentType.INTRO

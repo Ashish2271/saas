@@ -5,16 +5,33 @@ import YouTube from "react-youtube";
 import axios from "axios";
 import { Box, Button, Container, Input, Typography } from "@mui/material";
 import CreateCommentComponent from "../components/commnents/CreateCommentComponent";
+import { getYtVideos } from "../actions/youtube";
+import VideoEmbed from "../components/VideoEmbed";
+import { getPosts } from "../actions/post";
+import { getPost } from "../actions/post/types";
 
 function Example() {
   const [video, setVideo] = useState([]) as any;
-  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(35);
 
   useEffect(() => {
     async function fetchData() {
       try {
-        const response = await axios.get("/api/videos");
-        setVideo(response.data);
+        // const response = await axios.get("/api/videos");
+        const response=  await getPosts()
+        console.log(response)
+        let posts: getPost[] = []
+
+        if ('data' in response) {
+          const { data } = response;
+          posts = data
+          console.log(data);
+        } else {
+          const { error } = response;
+          console.error(error);
+        }
+   
+        setVideo(posts);
         // console.log(response.data.videoId)
       } catch (error) {
         console.error("Error fetching video stats:", error);
@@ -50,15 +67,17 @@ function Example() {
         <Typography className=" text-white">
           {video[currentVideoIndex]?.title}
         </Typography>
-        <YouTube
-          videoId={video[currentVideoIndex]?.videoId}
+        {/* <YouTube
+          videoId={video[currentVideoIndex]?.link}
           opts={opts}
           onReady={onPlayerReady}
-        />
+        /> */}
+        <VideoEmbed  videoId={`${video[currentVideoIndex]?.link}`} />
         <Button onClick={handleNextVideo} className="justify-end">
           Next
         </Button>
-        <CreateCommentComponent postId={1} />
+        <CreateCommentComponent postId={video[currentVideoIndex]?.id} />
+      
         <Box
           width="100%"
           maxWidth="100%"
@@ -70,7 +89,7 @@ function Example() {
           pb={2}
           color={"whitesmoke"}
         >
-          Nice video
+                  {video[currentVideoIndex]?.comments[0].content}
           {/* {comments} */}
         </Box>
       </Container>

@@ -2,7 +2,7 @@
 
 import { FormEvent } from 'react'
 import { createPostHandler } from '../../../actions/post'
-import  { LinkType, Post, PostType }  from '../../../actions/post/types'
+import  { LinkType, createPost, PostType }  from '../../../actions/post/types'
  
 export default function Page() {
     async function onSubmit(event: FormEvent<HTMLFormElement>) {
@@ -10,14 +10,14 @@ export default function Page() {
       
         const formData = new FormData(event.currentTarget)
       
-        const post: Post = {
-          title: formData.get('title') as string,
-          link: formData.get('link') as string,
-          linkType: formData.get('linkType') as LinkType, // assuming you have 'linkType' in your form
-          description: formData.get('description') as string,
-          type:formData.get('type') as PostType// Assuming other properties of Post are present in the form
-          // If not, adjust accordingly
-        }
+        // const post: createPost = {
+        //   title: formData.get('title') as string,
+        //   link: formData.get('link') as string,
+        //   linkType: formData.get('linkType') as LinkType, // assuming you have 'linkType' in your form
+        //   description: formData.get('description') as string,
+        //   type:formData.get('type') as PostType// Assuming other properties of Post are present in the form
+        //   // If not, adjust accordingly
+        // }
       
         const res = await createPostHandler({
           title: formData.get('title') as string,

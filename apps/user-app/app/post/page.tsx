@@ -1,5 +1,5 @@
 import { createPostHandler, getPosts } from "../../actions/post";
-import { Post } from "../../actions/post/types";
+import { getPost } from "../../actions/post/types";
 import VideoEmbed from "../../components/VideoEmbed";
 // import { Post } from "../../actions/post/types";
 import Vote from "../../components/Vote";
@@ -23,7 +23,8 @@ const PostList: React.FC<Props> = async () => {
 
   // })
   const response = await getPosts();
-  let posts: Post[] = []
+  
+  let posts: getPost[] = []
 
   if ('data' in response) {
     const { data } = response;
