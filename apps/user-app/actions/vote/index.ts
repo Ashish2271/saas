@@ -9,9 +9,7 @@ import { revalidatePath } from "next/cache";
 // import { createSafeAction } from "@/lib/create-safe-action";
 import { VoteHandleSchema } from "./schema";
 
-export const voteHandler = async (
-  data: VoteHandleType
-): Promise<any> => {
+export const voteHandler = async (data: VoteHandleType): Promise<any> => {
   const session = await getServerSession(authOptions);
   let targetType: "post" | "comment" | null = null;
   let targetId: number | undefined = undefined;
@@ -29,7 +27,8 @@ export const voteHandler = async (
 
   const { postId, commentId, voteType, currentPath } = data;
 
-  if (!postId && !commentId) { //or
+  if (!postId && !commentId) {
+    //or
     return { error: "No valid target specified." };
   }
 
@@ -75,6 +74,12 @@ export const voteHandler = async (
             await prisma.comment.update(q);
           } else if (targetType === "post") {
             await prisma.post.update(q);
+            await prisma.post.update({
+              where: { id: targetId },
+              data: {
+                ratings: { decrement: 1 },
+              },
+            });
           }
         } else {
           await prisma.vote.update({
@@ -98,6 +103,21 @@ export const voteHandler = async (
             await prisma.comment.update(q);
           } else if (targetType === "post") {
             await prisma.post.update(q);
+            if (voteType === VoteType.UPVOTE) {
+              await prisma.post.update({
+                where: { id: targetId },
+                data: {
+                  ratings: { increment: 2 }, // Increment ratings by 1 for an upvote
+                },
+              });
+            } else {
+              await prisma.post.update({
+                where: { id: targetId },
+                data: {
+                  ratings: { decrement: 2 }, // Decrement ratings by 1 for a downvote or other vote type
+                },
+              });
+            }
           }
         }
       } else {
@@ -121,6 +141,22 @@ export const voteHandler = async (
           await prisma.comment.update(q);
         } else {
           await prisma.post.update(q);
+          
+          if (voteType === VoteType.UPVOTE) {
+            await prisma.post.update({
+              where: { id: targetId },
+              data: {
+                ratings: { increment: 1 }, // Increment ratings by 1 for an upvote
+              },
+            });
+          } else {
+            await prisma.post.update({
+              where: { id: targetId },
+              data: {
+                ratings: { decrement: 1 }, // Decrement ratings by 1 for a downvote or other vote type
+              },
+            });
+          }
         }
       }
     });
@@ -130,7 +166,7 @@ export const voteHandler = async (
     let updatedEntity;
     if (targetType === "comment") {
       updatedEntity = await prisma.comment.findUnique(q);
-    } else{
+    } else {
       updatedEntity = await prisma.post.findUnique(q);
     }
 
