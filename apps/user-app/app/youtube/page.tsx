@@ -38,7 +38,7 @@ const PostList: React.FC<Props> = async () => {
 
       {posts.length > 0 &&
         posts.map((post) => (
-          <li key={post.id}>
+          <li key={post.id} className=" text-white">
             {post.title}
             {post.id == 107? <VideoEmbed videoId={`${post.link}`} /> : <div></div>}
             <Vote
