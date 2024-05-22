@@ -54,7 +54,9 @@ interface ThumbnailInfo {
   height: number;
 }
 
-const fetchStatsFromYouTube = async (videoIds: string[]): Promise<YouTubeVideoStat[]> => {
+const fetchStatsFromYouTube = async (
+  videoIds: string[]
+): Promise<YouTubeVideoStat[]> => {
   const API_KEY = "AIzaSyCIK1jmqlTU65CJtUXAzmQ6W6VFfCKD8yo"; // Store your API key in an environment variable
   const STAT_URL = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds.join(",")}&key=${API_KEY}`;
 
@@ -116,10 +118,10 @@ export const createYoutubePost = async (): Promise<
 
     // console.log(videosData);
     try {
-          await Promise.all(
-      mergedVideoStats.map(async (videoStat) => {
-        // console.log(statsData);
-          const statistics = videoStat.statistics
+      await Promise.all(
+        mergedVideoStats.map(async (videoStat) => {
+          // console.log(statsData);
+          const statistics = videoStat.statistics;
           // console.log(statistics && statsData);
 
           const viewCount = statistics?.viewCount ?? 0;
@@ -127,7 +129,8 @@ export const createYoutubePost = async (): Promise<
           const favoriteCount = statistics?.favoriteCount ?? 0;
           const commentCount = statistics?.commentCount ?? 0;
 
-         const ratings = (likeCount + favoriteCount + commentCount) / viewCount || 0;
+          const ratings =
+            (likeCount + favoriteCount + commentCount) / viewCount || 0;
 
           const postObject = {
             title: videoStat.title as string,
@@ -143,14 +146,24 @@ export const createYoutubePost = async (): Promise<
           await prisma.post.create({
             data: { ...postObject, author: { connect: { id: authorId } } },
           });
-      })
-    );
+        })
+      );
     } catch (error) {
       console.log(error);
     }
 
+    const post = await prisma.post.findMany();
 
+    return { data: post };
+  } catch (error: any) {
+    return { error: error.message || "Failed to create post from youtube." };
+  }
+};
 
+export const getYtVideos = async (): Promise<
+  { data: post[] } | { error: any }
+> => {
+  try {
     const post = await prisma.post.findMany();
 
     return { data: post };

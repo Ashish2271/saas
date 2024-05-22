@@ -1,11 +1,25 @@
-import { createYoutubePost } from "../../actions/youtube";
+import { createYoutubePost, getYtVideos } from "../../actions/youtube";
 import VideoEmbed from "../../components/VideoEmbed";
 import Vote from "../../components/Vote";
 import { post } from "@prisma/client";
 interface Props {}
 
+async function fetchYoutubeData() {
+  try {
+    const post = await createYoutubePost();
+    console.log(`Created new Youtube post: ${post}`);
+  } catch (error) {
+    console.error(`Failed to create Youtube post: ${error}`);
+  }
+}
+
 const PostList: React.FC<Props> = async () => {
-  const response = await createYoutubePost();
+  // const fetch = await createYoutubePost();
+  // cron.schedule("0 0 * * *", () => {
+  //   fetchYoutubeData();
+  // });
+
+  const response = await getYtVideos()
 //   console.log(response);
   let posts: post[] = [];
 
