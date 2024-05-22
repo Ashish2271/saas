@@ -4,13 +4,64 @@ import prisma from "@repo/db/client";
 import axios from "axios";
 import { PostType, LinkType, post } from "@prisma/client";
 
-const fetchStatsFromYouTube = async (videoIds: string[]) => {
+interface YouTubeVideoStat {
+  kind: "youtube#video";
+  etag: string;
+  id: string;
+  contentDetails: {
+    duration: string;
+    dimension: "2d" | "3d";
+    definition: "hd" | "sd";
+    caption: "true" | "false";
+    licensedContent: boolean;
+    contentRating: {};
+    projection: "rectangular" | "360" | "3d";
+  };
+  statistics: {
+    viewCount: number;
+    likeCount: number;
+    favoriteCount: number;
+    commentCount: number;
+  };
+}
+
+interface YouTubeSearchResult {
+  kind: string;
+  etag: string;
+  id: {
+    kind: string;
+    videoId: string;
+  };
+  snippet: {
+    publishedAt: Date;
+    channelId: string;
+    title: string;
+    description: string;
+    thumbnails: {
+      default: ThumbnailInfo;
+      medium: ThumbnailInfo;
+      high: ThumbnailInfo;
+    };
+    channelTitle: string;
+    liveBroadcastContent: "none" | "upcoming" | "live";
+    publishTime: Date;
+  };
+}
+
+interface ThumbnailInfo {
+  url: string;
+  width: number;
+  height: number;
+}
+
+const fetchStatsFromYouTube = async (videoIds: string[]): Promise<YouTubeVideoStat[]> => {
   const API_KEY = "AIzaSyCIK1jmqlTU65CJtUXAzmQ6W6VFfCKD8yo"; // Store your API key in an environment variable
   const STAT_URL = `https://www.googleapis.com/youtube/v3/videos?part=statistics,contentDetails&id=${videoIds.join(",")}&key=${API_KEY}`;
 
   try {
     const response = await axios.get(STAT_URL);
-    return response.data;
+
+    return response.data.items;
   } catch (error) {
     console.error(
       `Error fetching stats for videos ${videoIds.join(", ")}:`,
@@ -40,9 +91,10 @@ export const createYoutubePost = async (): Promise<
     const apiUrl = `${params.baseUrl}part=${params.part}&maxResults=${params.maxResults}&q=${params.query}&videoDuration=${params.videoDuration}&order=${params.order}&key=${params.apiKey}&type=${params.type}&pageToken=${params.pageToken}`;
 
     const response = await axios.get(apiUrl);
-    const videosData = response.data;
 
-    const videoStats = videosData.items.map((video: any) => {
+    const videosData: YouTubeSearchResult[] = response.data.items;
+
+    let videoStats = videosData.map((video: YouTubeSearchResult) => {
       const videoId = video.id.videoId;
       const title = video.snippet.title;
       const link = videoId;
@@ -54,32 +106,50 @@ export const createYoutubePost = async (): Promise<
     const videoIds = videoStats.map((video: any) => video.videoId);
     const statsData = await fetchStatsFromYouTube(videoIds);
 
-    // console.log(videosData);
-    await Promise.all(
-      videoStats.map(async (videoStat: any) => {
-       
-        console.log(statsData);
+    const mergedVideoStats = videoStats.map((video) => {
+      const stats = statsData.find((stat) => stat.id === video.videoId);
+      return {
+        ...video,
+        ...stats,
+      };
+    });
 
-        if (statsData.items && statsData.items.length > 0) {
-          const statistics = statsData.items[0].statistics;
-          const ratings = (statistics.likeCount + statistics.favoriteCount + statistics.commentCount ) / statistics.viewCount
+    // console.log(videosData);
+    try {
+          await Promise.all(
+      mergedVideoStats.map(async (videoStat) => {
+        // console.log(statsData);
+          const statistics = videoStat.statistics
+          // console.log(statistics && statsData);
+
+          const viewCount = statistics?.viewCount ?? 0;
+          const likeCount = statistics?.likeCount ?? 0;
+          const favoriteCount = statistics?.favoriteCount ?? 0;
+          const commentCount = statistics?.commentCount ?? 0;
+
+         const ratings = (likeCount + favoriteCount + commentCount) / viewCount || 0;
 
           const postObject = {
-            title: videoStat.title,
-            link: videoStat.link,
+            title: videoStat.title as string,
+            link: videoStat.link as string,
             linkType: LinkType.YOUTUBE,
-            description: videoStat.description,
-            thumbnail: videoStat.thumbnail,
+            description: videoStat.description as string,
+            thumbnail: videoStat.thumbnail as string,
             type: PostType.LONG,
-            authorId: "clwgg6zps00005kxj310v4rt2", // Replace with the actual author ID
-            ratings
+            ratings,
           };
-          await prisma.post.create({ data: postObject });
-        } else {
-          console.error(`Stats not found for video ${videoStat.videoId}`);
-        }
+
+          console.log(postObject);
+          await prisma.post.create({
+            data: { ...postObject, author: { connect: { id: authorId } } },
+          });
       })
     );
+    } catch (error) {
+      console.log(error);
+    }
+
+
 
     const post = await prisma.post.findMany();
 
