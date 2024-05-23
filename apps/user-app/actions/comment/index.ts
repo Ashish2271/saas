@@ -17,6 +17,7 @@ import {  Prisma } from "@prisma/client";
 // import { ROLES } from "../types";
 
 export const getComments = async (
+  //@ts-ignore
   q: Prisma.CommentFindManyArgs,
   parentId: number | null | undefined,
 ) => {
