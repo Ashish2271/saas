@@ -1,19 +1,24 @@
 {
   "$schema": "https://turbo.build/schema.json",
   "globalDependencies": ["**/.env.*local"],
+  "globalEnv": [
+    "MY_SECRET_TOKEN",
+    "GOOGLE_CLIENT_ID",
+    "GOOGLE_CLIENT_SECRET",
+    "GITHUB_ID",
+    "GITHUB_SECRET",
+    "CODE_SUBMISSION_BACKOFF_DELAY",
+    "CODE_SUBMISSION_BACKOFF_MAX_RETRIES",
+    "JUDGE0_API_URL",
+    "CODE_SUBMISSION_RATE_LIMIT_COUNT",
+    "CODE_SUBMISSION_RATE_LIMIT_INTERVAL",
+    "DATABASE_URL"
+  ],
   "pipeline": {
     "build": {
       "dependsOn": ["^build"],
     
-      "outputs": [
-    
-        ".next/**", "!.next/cache/**",
-      
-      
-        ".vercel/output/**"
-   
-        
-      ]
+      "outputs": ["dist/**", ".next/**"]
     },
     "lint": {
       "dependsOn": ["^lint"]
