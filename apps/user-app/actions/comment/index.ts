@@ -12,7 +12,7 @@ import prisma from "@repo/db/client";
 //   CommentUpdateSchema,
 // } from "./schema";
 // import { createSafeAction } from "@/lib/create-safe-action";
-import { CommentType, Prisma } from "@prisma/client";
+import {  Prisma } from "@prisma/client";
 // import { revalidatePath } from "next/cache";
 // import { ROLES } from "../types";
 
