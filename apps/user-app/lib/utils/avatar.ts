@@ -8,16 +8,16 @@ export const stringToColor = (str: string, saturation = 80, lightness = 50) => {
 	return `hsl(${hue}, ${saturation}%, ${lightness}%)`
 }
 
-export const stringAvatar = (name: string) => {
-	const words = name.split(' ')
-	let initials = ''
+// export const stringAvatar = (name: string) => {
+// 	const words = name.split(' ')
+// 	let initials = ''
 
-	for (let i = 0; i < words.length; i++) {
-		if (words[i][0]) {
-			initials += words[i][0]
-		}
-	}
+// 	for (let i = 0; i < words.length; i++) {
+// 		if (words?[i][0]) {
+// 			initials += words?[i][0]
+// 		}
+// 	}
 
-	initials = initials.slice(0, 2).toUpperCase()
-	return initials
-}
+// 	initials = initials.slice(0, 2).toUpperCase()
+// 	return initials
+// }

@@ -1,8 +1,9 @@
 import Signin from "../../components/signin";
-import { authOptions } from "../lib/auth";
+
 import { getServerSession } from "next-auth";
 import { redirect } from "next/navigation";
 import React from "react";
+import { authOptions } from "../../lib/auth";
 
 const SigninPage = async () => {
   const session = await getServerSession(authOptions);
