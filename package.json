@@ -2,7 +2,7 @@
   "name": "week-18",
   "private": true,
   "scripts": {
-    "build": "cd packages/db && npx prisma generate && turbo build",
+    "build": "cd packages/db && npx prisma generate && cd .. && cd .. && turbo build",
     "dev": "turbo dev",
     "lint": "turbo lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
