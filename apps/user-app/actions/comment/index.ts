@@ -103,7 +103,7 @@ console.log("ParentId:", parentId);
 
     let comment;
     if (parentComment) {
-      await prisma.$transaction(async (prisma) => {
+      await prisma.$transaction(async (prisma : any) => {
         comment = await prisma.comment.create({
           data: {
             content,
