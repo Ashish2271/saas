@@ -72,6 +72,7 @@ export const getPosts = async (): Promise<{ data: getPost[] } | { error: any }> 
 
   try {
     const posts = await prisma.post.findMany({
+      orderBy: {ratings: "desc"},
       include: {
         author: true,
         comments: true, // Include comments if needed

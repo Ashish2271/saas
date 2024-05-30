@@ -4,14 +4,14 @@ import Vote from "../../components/Vote";
 import { post } from "@prisma/client";
 interface Props {}
 
-async function fetchYoutubeData() {
-  try {
-    const post = await createYoutubePost();
-    console.log(`Created new Youtube post: ${post}`);
-  } catch (error) {
-    console.error(`Failed to create Youtube post: ${error}`);
-  }
-}
+// async function fetchYoutubeData() {
+//   try {
+//     const response = await createYoutubePost();
+//     return response
+//   } catch (error) {
+//     console.error(`Failed to create Youtube post: ${error}`);
+//   }
+// }
 
 const PostList: React.FC<Props> = async () => {
   // const fetch = await createYoutubePost();
@@ -19,8 +19,8 @@ const PostList: React.FC<Props> = async () => {
   //   fetchYoutubeData();
   // });
 
-  const response = await getYtVideos()
-//   console.log(response);
+  const response = await createYoutubePost();
+  //   console.log(response);
   let posts: post[] = [];
 
   if ("data" in response) {
@@ -33,22 +33,19 @@ const PostList: React.FC<Props> = async () => {
   }
 
   return (
-    <div className="px-72">
-      <h1>haha</h1>
-
-      {posts.length > 0 &&
-        posts.map((post) => (
-          <li key={post.id} className=" text-white">
-            {post.title}
-            {post.id == 107? <VideoEmbed videoId={`${post.link}`} /> : <div></div>}
-            <Vote
-              postId={post.id}
-              upVotes={post.upvotes}
-              downVotes={post.downvotes}
-              voteType={"UPVOTE"}
-            />
-          </li>
-        ))}
+    <div className="px-72 text-white">
+      {response && (
+        <ul>
+          {posts.map((post) => {
+            return (
+              <div>
+                <li key={post.id}>{JSON.stringify(post.id)}</li>
+                <li key={post.id}>{JSON.stringify(post.title)}</li>
+              </div>   
+            );
+          })}
+        </ul>
+      )}
     </div>
   );
 };

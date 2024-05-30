@@ -13,6 +13,7 @@ import prisma from "@repo/db/client";
 // } from "./schema";
 // import { createSafeAction } from "@/lib/create-safe-action";
 import {  Prisma } from "@prisma/client";
+import { revalidatePath, revalidateTag } from "next/cache";
 // import { revalidatePath } from "next/cache";
 // import { ROLES } from "../types";
 
@@ -145,6 +146,7 @@ console.log("ParentId:", parentId);
     // if (data.currentPath) {
     //   revalidatePath(data.currentPath);
     // }
+    revalidatePath('/')
     return { data: comment };
   } catch (error: any) {
     return { error: error.message || "Failed to create comment." };

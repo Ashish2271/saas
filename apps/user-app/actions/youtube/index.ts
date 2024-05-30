@@ -88,7 +88,7 @@ export const createYoutubePost = async (): Promise<
     pageToken: "CDIQAA",
   };
 
-  const authorId = "clwgg6zps00005kxj310v4rt2";
+  const authorId = "clwqkj6qy0000szfnkl6un9qo";
   try {
     const apiUrl = `${params.baseUrl}part=${params.part}&maxResults=${params.maxResults}&q=${params.query}&videoDuration=${params.videoDuration}&order=${params.order}&key=${params.apiKey}&type=${params.type}&pageToken=${params.pageToken}`;
 
@@ -143,9 +143,27 @@ export const createYoutubePost = async (): Promise<
           };
 
           console.log(postObject);
-          await prisma.post.create({
-            data: { ...postObject, author: { connect: { id: authorId } } },
+
+          const existingPost = await prisma.post.findUnique({
+            where: { link: postObject.link },
           });
+
+          let newRatings = postObject.ratings;
+
+          // Step 2: Compute new ratings if the post exists
+          if (existingPost) {
+            const { upvotes, downvotes } = existingPost;
+            newRatings += upvotes - downvotes;
+
+            await prisma.post.update({
+              where: { id: existingPost.id },
+              data: { ratings: newRatings },
+            });
+          } else {
+            await prisma.post.create({
+              data: { ...postObject, author: { connect: { id: authorId } } },
+            });
+          }
         })
       );
     } catch (error) {

@@ -24,11 +24,11 @@ const VideoEmbed = ({ videoId }: Props) => {
     <Box width="100%" height="100%">
       {videoId}
       {/* <iframe
-				src={`https://www.youtube.com/embed/${videoId}?&autoplay=1`}
-				allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-				allowFullScreen
-				style={{ border: 'none' }}
-			/> */}
+        src={`https://www.youtube.com/embed/${videoId}?&autoplay=1`}
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+        style={{ border: "none", height: "500", width: "800" }}
+      /> */}
       <YouTube
         videoId={`${videoId}`}
         opts={opts}
