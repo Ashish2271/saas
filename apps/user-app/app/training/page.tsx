@@ -73,7 +73,7 @@ const SixShotGame = () => {
               height: targetSize,
               backgroundColor: 'red',
               borderRadius: '50%',
-              cursor: 'pointer',
+              // cursor: 'pointer',
             }}
             onClick={() => handleTargetClick(index)}
           />
@@ -88,3 +88,49 @@ const SixShotGame = () => {
 };
 
 export default SixShotGame;
+
+
+// import { useEffect, useState, useRef, useCallback } from 'react';
+
+// export default function Game() {
+//   const [targets, setTargets] = useState([]);
+//   const [score, setScore] = useState(0);
+//   const gameAreaRef = useRef(null);
+
+//   useEffect(() => {
+//     generateTargets();
+//   }, []);
+
+//   const generateTargets = () => {
+//     const newTargets = [];
+//     for (let i = 0; i < 6; i++) {
+//       newTargets.push({
+//         id: i,
+//         x: Math.random() * 90 + '%',
+//         y: Math.random() * 90 + '%'
+//       });
+//     }
+//     setTargets(newTargets);
+//   };
+
+//   const handleClick = useCallback((id) => {
+//     setTargets((prevTargets) => prevTargets.filter((target) => target.id !== id));
+//     setScore((prevScore) => prevScore + 1);
+//   }, []);
+
+//   return (
+//     <div ref={gameAreaRef} className="relative w-screen h-screen bg-gray-800 flex justify-center items-center overflow-hidden">
+//       {targets.map(target => (
+//         <div
+//           key={target.id}
+//           className="absolute w-12 h-12 bg-red-500 rounded-full cursor-pointer transform transition-transform duration-100"
+//           style={{ left: target.x, top: target.y }}
+//           onClick={() => handleClick(target.id)}
+//         />
+//       ))}
+//       <div className="absolute top-5 right-5 text-white text-2xl">
+//         Score: {score}
+//       </div>
+//     </div>
+//   );
+// }

@@ -42,12 +42,13 @@ const PostList: React.FC<Props> = async () => {
       {posts.length > 0 && posts.map((post) => (
         <li key={post.id}>
           {post.title}
-          <VideoEmbed videoId={`${post.link}`} />
+          {/* <VideoEmbed videoId={`${post.link}`} /> */}
           <Vote
             postId={post.id}
             upVotes={post.upvotes}
             downVotes={post.downvotes}
             voteType={"UPVOTE"}
+            // commentId= { undefined}
           />
         </li>
       ))}

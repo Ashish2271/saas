@@ -1,6 +1,5 @@
 'use client';
 import { voteHandler } from '../actions/vote/index'; // Adjust the path if needed
-
 import { VoteHandleType } from '../actions/vote/types';
 import { VoteType } from "@prisma/client";
 import { ThumbsDownIcon, ThumbsUpIcon } from 'lucide-react';
@@ -8,36 +7,55 @@ import { usePathname } from 'next/navigation';
 import React from 'react';
 import { toast } from 'sonner';
 
+type VoteProps = {
+  upVotes: number;
+  downVotes: number;
+  postId?: number;
+  commentId?: number;
+  voteType: VoteType | null;
+};
+
 const Vote = ({
   upVotes,
   downVotes,
   postId,
+  commentId,
   voteType,
-}: {
-  upVotes: number;
-  downVotes: number;
-  postId: number | undefined;
-  voteType: VoteType | null;
-}) => {
+}: VoteProps) => {
   const currentPath = usePathname();
-
 
   const handleUpvote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    voteHandler({
-      postId,
-      voteType: VoteType.UPVOTE,
-      currentPath,
-    });
+    if (postId !== undefined) {
+      voteHandler({
+        postId,
+        voteType: VoteType.UPVOTE,
+        currentPath,
+      });
+    } else if (commentId !== undefined) {
+      voteHandler({
+        commentId,
+        voteType: VoteType.UPVOTE,
+        currentPath,
+      });
+    }
   };
 
   const handleDownVote = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    voteHandler({
-      postId,
-      voteType: VoteType.DOWNVOTE,
-      currentPath,
-    });
+    if (postId !== undefined) {
+      voteHandler({
+        postId,
+        voteType: VoteType.DOWNVOTE,
+        currentPath,
+      });
+    } else if (commentId !== undefined) {
+      voteHandler({
+        commentId,
+        voteType: VoteType.DOWNVOTE,
+        currentPath,
+      });
+    }
   };
 
   return (

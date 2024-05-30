@@ -75,7 +75,12 @@ export const getPosts = async (): Promise<{ data: getPost[] } | { error: any }> 
       orderBy: {ratings: "desc"},
       include: {
         author: true,
-        comments: true, // Include comments if needed
+        comments:{
+          include:{
+            user: true,
+            
+          }
+        } , // Include comments if needed
         // Any other related models you want to include
       },
     });

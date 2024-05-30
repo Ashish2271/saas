@@ -17,7 +17,7 @@ export const voteHandler = async (data: VoteHandleType): Promise<any> => {
   if (!session || !session.user.id) {
     return { error: "Unauthorized" };
   }
-
+console.log("hahaha")
   const parse = VoteHandleSchema.safeParse(data);
 
   if (!parse.success) {

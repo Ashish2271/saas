@@ -5,6 +5,7 @@ import { Box, Button, Container, Input, Typography } from "@mui/material";
 import CreateCommentComponent from "../components/commnents/CreateCommentComponent";
 import VideoEmbed from "../components/VideoEmbed";
 import { getPosts } from "../actions/post";
+import ShowComment from "../components/commnents/showcomments";
 
 function Example() {
   const [video, setVideo] = useState([]) as any[];
