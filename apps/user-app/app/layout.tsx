@@ -16,8 +16,8 @@ const roboto = Roboto_Flex({
 
 
 export const metadata: Metadata = {
-  title: "Wallet",
-  description: "Simple wallet app",
+  title: "EsportsHub",
+  description: "All your esports needs",
 };
 
 export default function RootLayout({

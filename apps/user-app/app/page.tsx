@@ -57,6 +57,7 @@ function Example() {
       >
         <Typography className=" text-white">
           {video[currentVideoIndex]?.title}
+          {video[currentVideoIndex]?.ratings}
         </Typography>
         {/* <YouTube
           videoId={video[currentVideoIndex]?.link}

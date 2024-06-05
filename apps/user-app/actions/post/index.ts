@@ -1,17 +1,15 @@
-'use server'
+"use server";
 
 import { getServerSession } from "next-auth";
-import { getPost,createPost } from "./types";
+import { getPost, createPost } from "./types";
 import { authOptions } from "../../lib/auth";
 import prisma from "@repo/db/client";
 import { z } from "zod";
+import moment from "moment";
 
-
-export const createPostHandler = async (
-  data: createPost
-): Promise<any> => {
-  const LinkType = z.enum(['YOUTUBE', 'SHORT']);
-  const PostType = z.enum(['SHORT', 'LONG']);
+export const createPostHandler = async (data: createPost): Promise<any> => {
+  const LinkType = z.enum(["YOUTUBE", "SHORT"]);
+  const PostType = z.enum(["SHORT", "LONG"]);
   const Schema = z.object({
     title: z.string(),
     link: z.string(),
@@ -21,11 +19,10 @@ export const createPostHandler = async (
   });
   const parse = Schema.safeParse(data);
 
- console.log(data);
+  console.log(data);
   if (!parse.success) {
-    console.log('eror')
+    console.log("eror");
     return { message: "Failed to create " };
-    
   }
 
   const parseddata = parse.data;
@@ -35,7 +32,7 @@ export const createPostHandler = async (
     return { error: "Unauthorized or insufficient permissions" };
   }
 
-  const { title, link,linkType,  description, thumbnail, hidden,type } = data;
+  const { title, link, linkType, description, thumbnail, hidden, type } = data;
   const authorId = session.user.id;
 
   try {
@@ -51,19 +48,16 @@ export const createPostHandler = async (
         type,
       },
     });
-   console.log('asdfasdf')
+    console.log("asdfasdf");
     return { data: post };
-
   } catch (error: any) {
     return { error: error.message || "Failed to create post." };
   }
 };
 
-
-
-
-
-export const getPosts = async (): Promise<{ data: getPost[] } | { error: any }> => {
+export const getPosts = async (): Promise<
+  { data: getPost[] } | { error: any }
+> => {
   // const session = await getServerSession(authOptions); // Get session
 
   // if (!session || !session.user) {
@@ -71,8 +65,14 @@ export const getPosts = async (): Promise<{ data: getPost[] } | { error: any }> 
   // }
 
   try {
+    const currentDateTime = moment().startOf("day");
     const posts = await prisma.post.findMany({
-      orderBy: {ratings: "desc"},
+      where: {
+        createdAt: {
+          gte: currentDateTime.toISOString(),
+        },
+      },
+      orderBy: { ratings: "desc" },
       include: {
         author: true,
         comments:{
@@ -90,4 +90,3 @@ export const getPosts = async (): Promise<{ data: getPost[] } | { error: any }> 
     return { error: error.message || "Failed to retrieve posts." };
   }
 };
-
