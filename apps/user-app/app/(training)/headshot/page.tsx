@@ -32,7 +32,7 @@ const SixShotGame = () => {
 
   const generateTargets = () => {
     const newTargets = [];
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 1; i++) {
       newTargets.push(generateRandomTarget());
     }
     //@ts-ignore
@@ -41,7 +41,7 @@ const SixShotGame = () => {
 
   const generateRandomTarget = () => {
     const x = Math.random() * (window.innerWidth - targetSize);
-    const y = Math.random() * (window.innerHeight - targetSize);
+    const y = window.innerHeight / 2 - targetSize / 2; // Center vertically
     return { x, y };
   };
 
@@ -95,3 +95,5 @@ const SixShotGame = () => {
 };
 
 export default SixShotGame;
+
+
