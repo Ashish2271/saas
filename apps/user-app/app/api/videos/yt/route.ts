@@ -28,7 +28,7 @@
 //   //   await handler(null!, null!);
 //   // });
 // 
-  const videos = await handler(null!, null!);
+  // const videos = await handler(null!, null!);
 
   // return NextResponse.json({
   //   message: "Starting scheduled task"
