@@ -35,6 +35,7 @@ const SixShotGame = () => {
     for (let i = 0; i < 9; i++) {
       newTargets.push(generateRandomTarget());
     }
+    //@ts-ignore
     setTargets(newTargets);
   };
 
@@ -44,13 +45,14 @@ const SixShotGame = () => {
     return { x, y };
   };
 
-  const handleTargetClick = (index) => {
-    setScore(score + 1);
+  const handleTargetClick = (index:any) => {
     setTargets((prevTargets) => {
       const newTargets = [...prevTargets];
+      //@ts-ignore
       newTargets[index] = generateRandomTarget();
       return newTargets;
     });
+    setScore((prevScore) => prevScore + 1); // Use functional state update to ensure the score increments correctly
   };
 
   return (
@@ -66,8 +68,13 @@ const SixShotGame = () => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             style={{
+              //@ts-ignore
               position: 'absolute',
+              //@ts-ignore
+
               top: target.y,
+              //@ts-ignore
+
               left: target.x,
               width: targetSize,
               height: targetSize,
@@ -75,7 +82,7 @@ const SixShotGame = () => {
               borderRadius: '50%',
               // cursor: 'pointer',
             }}
-            onClick={() => handleTargetClick(index)}
+            onMouseDown={() => handleTargetClick(index)} // Change to onMouseDown
           />
         ))
       ) : (
@@ -88,49 +95,3 @@ const SixShotGame = () => {
 };
 
 export default SixShotGame;
-
-
-// import { useEffect, useState, useRef, useCallback } from 'react';
-
-// export default function Game() {
-//   const [targets, setTargets] = useState([]);
-//   const [score, setScore] = useState(0);
-//   const gameAreaRef = useRef(null);
-
-//   useEffect(() => {
-//     generateTargets();
-//   }, []);
-
-//   const generateTargets = () => {
-//     const newTargets = [];
-//     for (let i = 0; i < 6; i++) {
-//       newTargets.push({
-//         id: i,
-//         x: Math.random() * 90 + '%',
-//         y: Math.random() * 90 + '%'
-//       });
-//     }
-//     setTargets(newTargets);
-//   };
-
-//   const handleClick = useCallback((id) => {
-//     setTargets((prevTargets) => prevTargets.filter((target) => target.id !== id));
-//     setScore((prevScore) => prevScore + 1);
-//   }, []);
-
-//   return (
-//     <div ref={gameAreaRef} className="relative w-screen h-screen bg-gray-800 flex justify-center items-center overflow-hidden">
-//       {targets.map(target => (
-//         <div
-//           key={target.id}
-//           className="absolute w-12 h-12 bg-red-500 rounded-full cursor-pointer transform transition-transform duration-100"
-//           style={{ left: target.x, top: target.y }}
-//           onClick={() => handleClick(target.id)}
-//         />
-//       ))}
-//       <div className="absolute top-5 right-5 text-white text-2xl">
-//         Score: {score}
-//       </div>
-//     </div>
-//   );
-// }
