@@ -171,7 +171,7 @@ console.log("hahaha")
     }
 
     if (currentPath) {
-      revalidatePath(currentPath);
+      revalidatePath("/valorant");
     }
 
     return { data: updatedEntity };

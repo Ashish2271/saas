@@ -30,6 +30,7 @@ export const GET = async () => {
     await handler(null!, null!);
   });
 
+   
   return NextResponse.json({
     message: "Starting scheduled task",
     videos,

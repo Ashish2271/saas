@@ -39,19 +39,19 @@ const PostList: React.FC<Props> = async () => {
     <div className="px-72">
       <h1>haha</h1>
 
-      {posts.length > 0 && posts.map((post) => (
-        <li key={post.id}>
-          {post.title}
-          {/* <VideoEmbed videoId={`${post.link}`} /> */}
+      {posts.length > 0 && (
+        <li key={posts[0]?.id}>
+          {posts[0]?.title}
+          <VideoEmbed videoId={`${posts[0]?.link}`} />
           <Vote
-            postId={post.id}
-            upVotes={post.upvotes}
-            downVotes={post.downvotes}
+            postId={posts[0]?.id}
+            upVotes={posts[0]?.upvotes as any}
+            downVotes={posts[0]?.downvotes as any}
             voteType={"UPVOTE"}
             // commentId= { undefined}
           />
         </li>
-      ))}
+      )}
     </div>
   );
 };

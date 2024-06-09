@@ -299,7 +299,8 @@ export const createYoutubePost = async (
     mergedVideoStats,
     "clwqkj6qy0000szfnkl6un9qo"
   );
-  const currentDateTime = moment().startOf("day");
+    const currentDateTime = moment().subtract(2, "day").startOf("day");
+    // const currentDateTime = moment().startOf("day");
 
   const post = await prisma.post.findMany({
     where: {

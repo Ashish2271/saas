@@ -7,6 +7,7 @@ import Providers from "../config/Providers";
 import { Roboto_Flex } from "next/font/google";
 import Header from "../components/header/Header";
 import NavigationManager from "../components/navigation/NavigationManager";
+import Navbar from "../components/header/Navbar";
 
 // const inter = Inter({ subsets: ["latin"] });
 const roboto = Roboto_Flex({
@@ -28,10 +29,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <Providers>
-        
         <body className={roboto.className} style={{ margin: 0, minWidth: 320 }}>
           {/* <Header />
           <NavigationManager /> */}
+          <Navbar />
           {children}
         </body>
       </Providers>

@@ -65,7 +65,7 @@ export const getPosts = async (): Promise<
   // }
 
   try {
-    const currentDateTime = moment().startOf("day");
+    const currentDateTime = moment().subtract(1, "day").startOf("day");
     const posts = await prisma.post.findMany({
       where: {
         createdAt: {
@@ -84,6 +84,7 @@ export const getPosts = async (): Promise<
         // Any other related models you want to include
       },
     });
+    
 
     return { data: posts };
   } catch (error: any) {
