@@ -15,7 +15,7 @@ type Props = {
 
 const fetchData = () =>{}
 
-const VideoEmbed = ({ data }: any) => {
+const VideoEmbed = ({ data }: Props) => {
   const [video, setVideo] = useState<getPost[]>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   useEffect(() => {
@@ -82,7 +82,11 @@ const VideoEmbed = ({ data }: any) => {
             pb={2}
             color={"whitesmoke"}
           >
-            {video[currentVideoIndex].comments.length > 0 && (
+                
+               
+
+            { //@ts-ignore
+            video[currentVideoIndex]?.comments?.length > 0 && (
               <ul>
                 {video[currentVideoIndex]?.comments.map((comment: any) => {
                   return (
