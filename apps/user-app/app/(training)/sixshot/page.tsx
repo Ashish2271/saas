@@ -14,6 +14,8 @@ const SixShotGame = () => {
   const [gameStarted, setGameStarted] = useState(false);
 
   useEffect(() => {
+    //@ts-ignore
+
     let timer;
     if (gameStarted) {
       // setTimeLeft(gameDuration / 1000);
@@ -24,6 +26,8 @@ const SixShotGame = () => {
           if (prev > 0) {
             return prev - 1;
           } else {
+    //@ts-ignore
+
             clearInterval(timer);
             return 0;
           }
@@ -33,6 +37,7 @@ const SixShotGame = () => {
       // Generate initial targets
       generateTargets();
     }
+    //@ts-ignore
 
     return () => clearInterval(timer);
   }, [gameStarted]);
@@ -42,6 +47,8 @@ const SixShotGame = () => {
     for (let i = 0; i < 9; i++) {
       newTargets.push(generateRandomTarget());
     }
+    //@ts-ignore
+
     setTargets(newTargets);
   };
 
@@ -51,9 +58,11 @@ const SixShotGame = () => {
     return { x, y };
   };
 
-  const handleTargetClick = (index) => {
+  const handleTargetClick = (index:any) => {
     setTargets((prevTargets) => {
       const newTargets = [...prevTargets];
+    //@ts-ignore
+
       newTargets[index] = generateRandomTarget();
       return newTargets;
     });
@@ -90,7 +99,11 @@ const SixShotGame = () => {
                 exit={{ opacity: 0 }}
                 style={{
                   position: 'absolute',
+    //@ts-ignore
+
                   top: target.y,
+    //@ts-ignore
+
                   left: target.x,
                   width: targetSize,
                   height: targetSize,

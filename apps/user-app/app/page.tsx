@@ -37,33 +37,16 @@ function Example() {
             </Card>
           </Link>
           <div className="space-y-6">
-            <Link href="/aim-training">
+            <Link href="/training">
               <Card className="bg-gray-800">
                 <CardContent>
                   <Typography gutterBottom variant="h5" component="div">
-                    Aim Training 1
+                    Aim Training 
                   </Typography>
                 </CardContent>
               </Card>
             </Link>
-            <Link href="/aim-training">
-              <Card className="bg-gray-800">
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Aim Training 2
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Link>
-            <Link href="/aim-training">
-              <Card className="bg-gray-800">
-                <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
-                    Aim Training 3
-                  </Typography>
-                </CardContent>
-              </Card>
-            </Link>
+           
           </div>
         </div>
       </main>
