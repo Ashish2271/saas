@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const targetSize = 10; // Size of the targets
-const gameDuration = 30000; // 30 seconds
+const gameDuration = 60000; // 30 seconds
 
 const SixShotGame = () => {
   const [targets, setTargets] = useState([]);
