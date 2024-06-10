@@ -42,6 +42,7 @@ const PostList: React.FC<Props> = async () => {
       {posts.length > 0 && (
         <li key={posts[0]?.id}>
           {posts[0]?.title}
+       
           <VideoEmbed videoId={`${posts[0]?.link}`} />
           <Vote
             postId={posts[0]?.id}

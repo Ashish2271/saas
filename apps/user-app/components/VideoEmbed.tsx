@@ -15,7 +15,7 @@ type Props = {
 
 const fetchData = () =>{}
 
-const VideoEmbed = ({ data }: Props) => {
+const VideoEmbed = ({ data }: any) => {
   const [video, setVideo] = useState<getPost[]>([]);
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   useEffect(() => {
