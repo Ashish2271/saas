@@ -24,7 +24,7 @@ const handler = async (_req: NextApiRequest, res: NextApiResponse) => {
 };
 
 export const GET = async () => {
-  const schedule = process.env.CRON_SCHEDULE || "30 23 * * *";
+  const schedule = process.env.CRON_SCHEDULE || "59 23 * * *";
   cron.schedule(schedule, async () => {
     console.info(`Running scheduled task "${schedule}"`);
     await handler(null!, null!);
