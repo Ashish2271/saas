@@ -19,22 +19,22 @@ const PostList: React.FC<Props> = async () => {
   //   fetchYoutubeData();
   // });
 
-  const response = await createYoutubePost();
-  //   console.log(response);
-  let posts: post[] = [];
+  // const response = await createYoutubePost();
+  // //   console.log(response);
+  // let posts: post[] = [];
 
-  if ("data" in response) {
-    const { data } = response;
-    posts = data;
-    // console.log(data);
-  } else {
-    const { error } = response;
-    console.error(error);
-  }
+  // if ("data" in response) {
+  //   const { data } = response;
+  //   posts = data;
+  //   // console.log(data);
+  // } else {
+  //   const { error } = response;
+  //   console.error(error);
+  // }
 
   return (
     <div className="px-72 text-white">
-      {response && (
+      {/* {response && (
         <ul>
           {posts.map((post) => {
             return (
@@ -45,7 +45,7 @@ const PostList: React.FC<Props> = async () => {
             );
           })}
         </ul>
-      )}
+      )} */}
     </div>
   );
 };
