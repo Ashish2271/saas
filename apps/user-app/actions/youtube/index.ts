@@ -4,6 +4,7 @@ import prisma from "@repo/db/client";
 import axios from "axios";
 import { PostType, LinkType, post, Prisma } from "@prisma/client";
 import moment from "moment";
+import { revalidatePath } from "next/cache";
 
 interface YouTubeVideoStat {
   kind: "youtube#video";
@@ -225,9 +226,9 @@ const computeRatingsAndStoreToDatabase = async (
     const likeCount = statistics?.likeCount ?? 0;
     const favoriteCount = statistics?.favoriteCount ?? 0;
     const commentCount = statistics?.commentCount ?? 0;
-    let ratings = 0
+    let ratings = 0;
 
-    if (viewCount != 0 ) {
+    if (viewCount != 0) {
       ratings = (likeCount + favoriteCount + commentCount) / viewCount;
     }
 
@@ -263,7 +264,7 @@ const computeRatingsAndStoreToDatabase = async (
             data: { ratings: newRatings },
           });
 
-          console.log('update -> ', post)
+          console.log("update -> ", post);
         } else {
           console.log(postObject.link, "-> ratings:", postObject.ratings);
 
@@ -274,7 +275,7 @@ const computeRatingsAndStoreToDatabase = async (
             },
           });
 
-          console.log('create -> ', post)
+          console.log("create -> ", post);
         }
       })
     );
@@ -299,8 +300,9 @@ export const createYoutubePost = async (
     mergedVideoStats,
     "clwqkj6qy0000szfnkl6un9qo"
   );
-    const currentDateTime = moment().subtract(2, "day").startOf("day");
-    // const currentDateTime = moment().startOf("day");
+
+  const currentDateTime = moment().subtract(1, "day").startOf("day");
+  // const currentDateTime = moment().startOf("day");
 
   const post = await prisma.post.findMany({
     where: {
@@ -309,7 +311,7 @@ export const createYoutubePost = async (
       },
     },
   });
-
+  revalidatePath("/valorant");
   return { data: post };
 };
 
@@ -425,15 +427,15 @@ export const getYtVideos = async (): Promise<
   { data: post[] } | { error: any }
 > => {
   try {
-   const currentDateTime = moment().startOf("day");
+    const currentDateTime = moment().startOf("day");
 
-   const post = await prisma.post.findMany({
-     where: {
-       createdAt: {
-         gte: currentDateTime.toISOString(),
-       },
-     },
-   });;
+    const post = await prisma.post.findMany({
+      where: {
+        createdAt: {
+          gte: currentDateTime.toISOString(),
+        },
+      },
+    });
 
     return { data: post };
   } catch (error: any) {

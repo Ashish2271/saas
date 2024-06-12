@@ -16,6 +16,7 @@ function Example() {
     });
   }, []);
 
+  newVideos()
   return (
     <div>
       
